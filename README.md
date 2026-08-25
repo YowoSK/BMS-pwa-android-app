@@ -21,6 +21,14 @@ From the repository root:
 .\gradlew.bat connectedAndroidTest
 ```
 
+`test` runs the local JVM unit tests, including server URL validation, and does not require a device or emulator. `connectedAndroidTest` runs instrumented tests and requires a connected Android device or running emulator.
+
+To run only the server URL tests:
+
+```powershell
+.\gradlew.bat :app:testDebugUnitTest --tests "com.example.kmbe_bms.ServerUrlTest"
+```
+
 Install the debug build on a connected device with:
 
 ```powershell
@@ -39,7 +47,7 @@ On first launch, enter the server host and optional port, for example:
 
 The app normalizes a host without a scheme to `http://`, appends the Node-RED dashboard path `/ui/`, and persists the resulting URL locally. Use the connection header in the app to change the server later.
 
-The manifest currently permits cleartext traffic because local Node-RED deployments commonly use HTTP. For production deployments, prefer HTTPS and consider restricting cleartext traffic to the required host.
+Debug builds permit cleartext HTTP for local Node-RED deployments. Release builds reject cleartext traffic, so production deployments must expose the dashboard over HTTPS. WebView debugging is also enabled only in debug builds.
 
 ## Project structure
 
